@@ -65,7 +65,7 @@
                             <button type="button" class="p-button-rounded p-button-warning" pButton icon="pi pi-pencil" pTooltip="Modifier" tooltipPosition="bottom"></button>
                             <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-file-o" pTooltip="Pieces Jointes" tooltipPosition="bottom" (click)="showPJ(collab.id, collab.nomComplet)"></button>
                             <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-file-pdf" pTooltip="Exporter PDF" tooltipPosition="bottom"></button>
-                            <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-trash" pTooltip="Supprimer" tooltipPosition="bottom"></button>
+                            <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-trash" pTooltip="Supprimer" tooltipPosition="bottom" (click)="deleteCollaborateur(collab.nomComplet, collab.id)"></button>
                         </div>
                     </td>
                 </tr>
@@ -78,3 +78,6 @@
             </ng-template>
     </p-table>
 </div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast></p-toast>

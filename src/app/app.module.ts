@@ -43,6 +43,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import { ConsultComponent } from './components/dashboard/consult/consult.component';
 import { AvantagestableComponent } from './components/dashboard/consult/avantagestable/avantagestable.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,6 +89,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
     DynamicDialogModule,
     TooltipModule,
     BreadcrumbModule,
+    ConfirmDialogModule
 
     
   ],
