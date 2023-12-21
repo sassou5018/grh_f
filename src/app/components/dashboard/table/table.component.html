@@ -1,0 +1,80 @@
+<div>
+    <p-table #dt1  [showCurrentPageReport]="true" [rowHover]="true" [value]="(collaborateurs | async) ?? []" dataKey="id"  [globalFilterFields]="['id', 'nomComplet', 'poste.typePoste.libelle', 'contrat.typeContrat.libelle']">
+        <ng-template pTemplate="caption">
+            <div>
+                <span class="p-input-icon-left p-ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        ID - Collaborateur
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Nom Complet
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Poste
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Type Contrat
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Ancienneté
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Actions
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+            <ng-template pTemplate="body" let-collab>
+                <tr>
+                    <td>
+                        {{collab.id}}
+                    </td>
+                    <td>
+                        {{collab.nomComplet}}
+                    </td>
+                    <td>
+                        {{collab.poste.typePoste.libelle}}
+                    </td>
+                    <td>
+                        {{collab.contrat.typeContrat.libelle}}
+                    </td>
+                    <td>
+                        {{parseAnciennete(collab.dateEmbauche)}} Ago
+                    </td>
+                    <td>
+                        <div class="grid gap-1">
+                            <button type="button" class="p-button-rounded p-button-primary" pButton icon="pi pi-eye" pTooltip="Consulter" tooltipPosition="bottom" (click)="showUser(collab)"></button>
+                            <button type="button" class="p-button-rounded p-button-warning" pButton icon="pi pi-pencil" pTooltip="Modifier" tooltipPosition="bottom"></button>
+                            <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-file-o" pTooltip="Pieces Jointes" tooltipPosition="bottom" (click)="showPJ(collab.id, collab.nomComplet)"></button>
+                            <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-file-pdf" pTooltip="Exporter PDF" tooltipPosition="bottom"></button>
+                            <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-trash" pTooltip="Supprimer" tooltipPosition="bottom"></button>
+                        </div>
+                    </td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td class="text-center">Aucun Collaborateur</td>
+                </tr>
+            </ng-template>
+    </p-table>
+</div>

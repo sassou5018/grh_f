@@ -1,0 +1,167 @@
+<p-breadcrumb [model]="bcModel"></p-breadcrumb>
+<div class="grid">
+    <div class="grid card p-fluid w-12">
+        <div class="card p-fluid bg-gray-100 w-12">
+            <h5>Information Collaborateur</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="cin">N° CIN*</label>
+                    <input pInputText id="cin" [readOnly]="true" [value]="collaborateur.cin"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="nomComplet">Nom Complet*</label>
+                    <input pInputText id="nomComplet" type="text" [readOnly]="true" [value]="collaborateur.nomComplet"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="numeroCompte">Numero Compte*</label>
+                    <input pInputText id="nomComplet" type="text" [readOnly]="true" [value]="12222332"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="numSecSocial">Numero Securité Sociale*</label>
+                    <input pInputText id="nomComplet" type="text" [readOnly]="true" [value]="collaborateur.numeroSecuriteSociale"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="dateNaissance">Date Naissance*</label>
+                    <p-calendar dateFormat="dd/mm/yy" id="dateNaissance" [showIcon]="true" [disabled]="true" [readonlyInput]="true" [(ngModel)]="dateNaissance"></p-calendar>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="numTel">N° Telephone*</label>
+                    <input pInputText id="nomComplet" type="text" [readOnly]="true" [value]="collaborateur.numeroTel"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="adresse">Adresse</label>
+                    <input pInputText id="adresse" type="text" [readOnly]="true" [value]="collaborateur.addresse" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="email">Email</label>
+                    <input pInputText id="email" type="email" [readOnly]="true" [value]="collaborateur.email" />
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <div class="grid card p-fluid w-12 ">
+        <div class="card p-fluid bg-gray-100 w-12">
+            <h5>Qualification</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="natureEtudes">Nature d'etudes*</label>
+                    <p-dropdown [readonly]="true" [placeholder]="collaborateur.qualification.natureQualif.libelle"></p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="certification">Certification*</label>
+                    <input pInputText id="certification" type="text" [readOnly]="true" [value]="collaborateur.qualification.certification" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="niveauEtudes">Niveau d'etudes*</label>
+                    <p-dropdown  optionLabel="libelle" [readonly]="true" [placeholder]="collaborateur.qualification.niveauQualif.libelle"></p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="anneeExperience">Annee d'experience*</label>
+                    <input pInputText id="anneeExperience" [readOnly]="true" [value]="collaborateur.qualification.experience" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="grid card p-fluid w-12">
+        <div class="card p-fluid bg-gray-100 w-12">
+            <h5>Contrat</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="typeContrat">Type Contrat*</label>
+                    <p-dropdown [readonly]="true" [placeholder]="collaborateur.contrat.typeContrat.libelle"></p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="salaireDeBase">Salaire</label>
+                    <input pInputText id="salaireDeBase" type="text" [readOnly]="true" [value]="collaborateur.contrat.salaire" [pTooltip]="getSalaireTooltip()" tooltipPosition="bottom" />
+                    <label class="text-xs" [pTooltip]="getSalaireTooltip()" tooltipPosition="bottom">Detaille</label>
+                </div>
+                <div class="field col-12 md:col-6" *ngIf="collaborateur.contrat.typeContrat.avecDateDebut">
+                    <label htmlFor="dateDebut">Date Debut Contrat*</label>
+                    <p-calendar dateFormat="dd/mm/y" id="dateDebut" [showIcon]="true" [disabled]="true" [(ngModel)]="dateDebutContrat"></p-calendar>
+                </div>
+                <div class="field col-12 md:col-6" *ngIf="collaborateur.contrat.typeContrat.avecDateFin">
+                    <label htmlFor="dateFin">Date Fin Contrat*</label>
+                    <p-calendar dateFormat="dd/mm/yy" id="dateFin" [showButtonBar]="true" [showIcon]="true" [disabled]="true" [(ngModel)]="dateFinContrat"></p-calendar>
+                </div>
+                <div class="field col-12">
+                    <label htmlFor="avantages">Avantages sur contrat</label>
+                    <!-- <p-multiSelect  optionLabel="libelle"></p-multiSelect> -->
+                    <app-avantagestable [avantage]="collaborateur.contrat.avantage"></app-avantagestable>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid card p-fluid w-12">
+        <div class="card p-fluid bg-gray-100 w-12">
+        <h5>Grade</h5>
+        <div class="p-fluid p-formgrid grid">
+            <div class="field col-12 md:col-6">
+                <label htmlFor="departement">Departement</label>
+                <p-dropdown  optionLabel="libelle" [readonly]="true" [placeholder]="collaborateur.poste.typePoste.departement.libelle"></p-dropdown>
+            </div>
+            <div class="field col-12">
+                <label htmlFor="poste">Poste*</label>
+                <p-dropdown  optionLabel="typePoste.libelle" [readonly]="true" [placeholder]="collaborateur.poste.typePoste.libelle"></p-dropdown>
+            </div>
+            <div class="field col-12" >
+                <label htmlFor="responsable">Responsable*</label>
+                <div class="flex gap-1">
+                    <p-dropdown   [readonly]="true" [placeholder]="collaborateur.poste.responsable.nomComplet"></p-dropdown>
+                    <button pButton class="p-button-rounded" icon="pi pi-external-link" pTooltip="Clicker pour consulter le profil" (click)="showProfil('resp')"></button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="grid card p-fluid w-12">
+        <div class="card p-fluid bg-gray-100 w-12">
+        <div class="card p-fluid bg-gray-100 w-12">
+            <h5>Piece Jointe</h5>
+            <app-files-dialog [withInput]="true" [id]="collaborateur.id"></app-files-dialog>
+        </div>
+    </div>
+    </div>
+
+    <div class="grid card p-fluid w-12">
+        <div class="card p-fluid bg-gray-100 w-12">
+        <h5>Autres Informations</h5>
+        <div class="p-fluid p-formgrid grid nested-grid">
+            <div class="col-12" *ngIf="reccomendationCheck">
+                <div class="field col-12 md:col-6">
+                    <p-checkbox label="Recommendation"[binary]="true" [readonly]="true" [(ngModel)]="reccomendationCheck"></p-checkbox>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="salaireDeBase">Collaborateur<span >*</span></label>
+                    <div class="flex gap-1">
+                        <input pInputText id="salaireDeBase" [readOnly]="true" [value]="collaborateur.reccommender.nomComplet"/>
+                        <button pButton class="p-button-rounded" icon="pi pi-external-link" pTooltip="Clicker pour consulter le profil" (click)="showProfil('reccomendation')"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6"></div>
+            <div class="field col-12 md:col-6 w-12">
+                <label htmlFor="avantages">Commentaire</label>
+                <textarea pInputTextarea [autoResize]="true" class="p-inputtextarea w-12" [readOnly]="true" [value]="collaborateur.comment"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>

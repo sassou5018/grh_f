@@ -1,0 +1,32 @@
+<p-table [rowHover]="true" [value]="avantage" [scrollable]="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="min-width: 12rem">
+                <div class="flex justify-content-between align-items-center">
+                    Avantage
+                </div>
+            </th>
+            <th style="min-width: 12rem">
+                <div class="flex justify-content-between align-items-center">
+                    Montant
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+        <ng-template pTemplate="body" let-avantage>
+            <tr>
+                <td>
+                    {{avantage.libelle}}
+                </td>
+                <td>
+                    {{avantage.montant}}
+                </td>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td class="text-center">No Files Found!</td>
+            </tr>
+        </ng-template>
+</p-table>

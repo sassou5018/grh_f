@@ -1,0 +1,17 @@
+<div class="flex justify-content-center">
+    <div class="flex flex-column align-items-center">
+        <p-avatar [label]="user.username.charAt(0).toUpperCase()" size="large"
+            [style]="{'background-color':'#2196F3', 'color': '#ffffff'}" shape="circle"></p-avatar>
+        <p-chip [label]="user.username" styleClass="m-1"></p-chip>
+    </div>
+    <div clss="grid">
+        <div class="col">
+            <button pButton icon="pi pi-sign-out" class="p-button-danger p-button-lg p-button-rounded" (click)="logoutfn()"></button>
+            <p>Logout</p>
+        </div>
+        <div class="col">
+            <button pButton icon="pi pi-user-edit" class="p-button-lg p-button-rounded"></button>
+            <p>Edit</p>
+        </div>
+    </div>
+</div>

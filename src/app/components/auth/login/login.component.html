@@ -1,0 +1,34 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">            
+        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <h2>Authentification</h2>
+                    <span class="text-600 font-medium">Bienvenu a GRH</span>
+                </div>
+
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Login:</label>
+                    <input id="email1" type="text" placeholder="Username" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem" formControlName="username">
+                    <div *ngIf="loginForm.getError('required', 'username') && loginForm.get('username')?.touched" class="text-red-500 ">Field Required*</div>
+
+                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Username:</label>
+                    <p-password id="password1" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem" formControlName="password"></p-password>
+                    <div *ngIf="loginForm.getError('required', 'password') && loginForm.get('password')?.touched" class="text-red">Field Required*</div>
+                    <div *ngIf="loginForm.getError('minlength', 'password') && loginForm.get('password')?.touched" class="text-red">Minimum Length is 6</div>
+                    <div *ngIf="loginForm.getError('wrongUser') && loginForm.get('password')?.touched" class="text-red-500">Wrong username or password!</div>
+
+                    <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                        <div class="flex align-items-center">
+                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2" formControlName="remember"></p-checkbox>
+                            <label for="rememberme1">Remember me</label>
+                        </div>
+                        <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
+                    </div>
+                    <button pButton pRipple class="w-full p-3 text-xl" type="submit" label="Login" [disabled]="!loginForm.valid"></button>
+                    <p-toast></p-toast>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

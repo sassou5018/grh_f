@@ -1,0 +1,364 @@
+<div class="grid">
+    <div class="grid card p-fluid w-12">
+        <form class="card p-fluid bg-gray-100 w-12" [formGroup]="infoCollaborateur" (ngSubmit)="onSubmit()">
+            <h5>Information Collaborateur</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="cin">N° CIN*</label>
+                    <p-inputMask id="cin" mask="99999999" formControlName="cin" [autoClear]="false"
+                        [ngClass]="{ 'is-invalid': infoCollaborateur.get('cin')!.invalid && infoCollaborateur.get('cin')!.touched }" />
+                    <div *ngIf="infoCollaborateur.get('cin')!.invalid && infoCollaborateur.get('cin')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="infoCollaborateur.getError('required', 'cin')">CIN is required.</div>
+                        <div *ngIf="infoCollaborateur.getError('lessThanMin', 'cin')">CIN must be at least 8 characters
+                            long.</div>
+                        <div *ngIf="infoCollaborateur.getError('maxlength', 'cin')">CIN cannot exceed 8 characters.
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="nomComplet">Nom Complet*</label>
+                    <input pInputText id="nomComplet" type="text" formControlName="nomComplet"
+                        [ngClass]="{ 'is-invalid': infoCollaborateur.get('nomComplet')!.invalid && infoCollaborateur.get('nomComplet')!.touched }" />
+                    <div *ngIf="infoCollaborateur.get('nomComplet')!.invalid && infoCollaborateur.get('nomComplet')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="infoCollaborateur.getError('required', 'nomComplet')">Nom Complet is required.</div>
+                        <div *ngIf="infoCollaborateur.getError('notalphabetic', 'nomComplet')">Nom doit etre
+                            alphabetique.
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="numeroCompte">Numero Compte*</label>
+                    <p-inputMask [autoClear]="false" id="numeroCompte" mask="99999999" formControlName="numeroCompte"
+                        [ngClass]="{ 'is-invalid': infoCollaborateur.get('numeroCompte')!.invalid && infoCollaborateur.get('numeroCompte')!.touched }" />
+                    <div *ngIf="infoCollaborateur.get('numeroCompte')!.invalid && infoCollaborateur.get('numeroCompte')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="infoCollaborateur.getError('required', 'numeroCompte')">Numero Compte is required.
+                        </div>
+                        <div *ngIf="infoCollaborateur.getError('lessThanMin', 'numeroCompte')">Numero Compte must be at
+                            least 8 characters long.</div>
+                        <div *ngIf="infoCollaborateur.getError('maxlength', 'numeroCompte')">Numero Compte cannot exceed
+                            8
+                            characters.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="numSecSocial">Numero Securité Sociale*</label>
+                    <p-inputMask [autoClear]="false" id="numSecSocial" mask="999999999" formControlName="numSecSocial"
+                        [ngClass]="{ 'is-invalid': infoCollaborateur.get('numSecSocial')!.invalid && infoCollaborateur.get('numSecSocial')!.touched }" />
+                    <div *ngIf="infoCollaborateur.get('numSecSocial')!.invalid && infoCollaborateur.get('numSecSocial')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="infoCollaborateur.getError('required', 'numSecSocial')">Numero Securité Sociale is
+                            required.</div>
+                        <div *ngIf="infoCollaborateur.getError('lessThanMin', 'numSecSocial')">Numero Securité Sociale
+                            must
+                            be at least 9 characters long.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="dateNaissance">Date Naissance*</label>
+                    <p-calendar dateFormat="dd/mm/yy" id="dateNaissance" formControlName="dateNaissance"
+                        [showButtonBar]="true" [showIcon]="true"
+                        [ngClass]="{ 'is-invalid': infoCollaborateur.get('dateNaissance')!.invalid && infoCollaborateur.get('dateNaissance')!.touched }"></p-calendar>
+                    <div *ngIf="infoCollaborateur.get('dateNaissance')!.invalid && infoCollaborateur.get('dateNaissance')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="infoCollaborateur.getError('required', 'dateNaissance')">Date Naissance is required.
+                        </div>
+                        <div *ngIf="infoCollaborateur.getError('isDate', 'dateNaissance')">Date Naissance must be a
+                            valid
+                            date.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="numTel">N° Telephone*</label>
+                    <p-inputMask [autoClear]="false" id="numTel" type="text" mask="99 999 999" slotChar="  "
+                        formControlName="numTel"
+                        [ngClass]="{ 'is-invalid': infoCollaborateur.get('numTel')!.invalid && infoCollaborateur.get('numTel')!.touched }" />
+                    <div *ngIf="infoCollaborateur.get('numTel')!.invalid && infoCollaborateur.get('numTel')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="infoCollaborateur.getError('required', 'numTel')">N° Telephone is required.</div>
+                        <div *ngIf="infoCollaborateur.getError('lessThanMin', 'numTel')">N° Telephone must be at least 8
+                            characters long.</div>
+                        <div *ngIf="infoCollaborateur.getError('maxlength', 'numTel')">N° Telephone cannot exceed 8
+                            characters.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="adresse">Adresse</label>
+                    <input pInputText id="adresse" type="text" formControlName="adresse"
+                        [ngClass]="{ 'is-invalid': infoCollaborateur.get('adresse')!.invalid && infoCollaborateur.get('adresse')!.touched }" />
+                    <div *ngIf="infoCollaborateur.get('adresse')!.invalid && infoCollaborateur.get('adresse')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="infoCollaborateur.getError('required', 'adresse')">Adresse is required.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="email">Email</label>
+                    <input pInputText id="email" type="email" formControlName="email"
+                        [ngClass]="{ 'is-invalid': infoCollaborateur.get('email')!.invalid && infoCollaborateur.get('email')!.touched }" />
+                    <div *ngIf="infoCollaborateur.get('email')!.invalid && infoCollaborateur.get('email')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="infoCollaborateur.getError('required', 'email')">Email is required.</div>
+                        <div *ngIf="infoCollaborateur.getError('email', 'email')">Email must be a valid email address.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <div class="grid card p-fluid w-12 ">
+        <form class="card p-fluid bg-gray-100 w-12" [formGroup]="qualification">
+            <h5>Qualification</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="natureEtudes">Nature d'etudes*</label>
+                    <p-dropdown [options]="natureQualif" optionLabel="libelle"
+                        formControlName="natureQualif"></p-dropdown>
+                    <div *ngIf="qualification.get('natureQualif')!.invalid && qualification.get('natureQualif')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="qualification.hasError('required', 'natureQualif')">Nature d'etudes is required.
+                        </div>
+                        <div *ngIf="qualification.hasError('NotInArray', 'natureQualif')">Invalid nature d'etudes.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="certification">Certification*</label>
+                    <input pInputText id="certification" type="text" formControlName="certification" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="niveauEtudes">Niveau d'etudes*</label>
+                    <p-dropdown [options]="niveauQualif" optionLabel="libelle"
+                        formControlName="niveauQualif"></p-dropdown>
+                    <div *ngIf="qualification.get('niveauQualif')!.invalid && qualification.get('niveauQualif')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="qualification.hasError('required', 'niveauQualif')">Niveau d'etudes is required.
+                        </div>
+                        <div *ngIf="qualification.hasError('NotInArray', 'niveauQualif')">Invalid niveau d'etudes.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="anneeExperience">Annee d'experience*</label>
+                    <input pInputTextarea id="anneeExperience" rows="4" formControlName="experience" />
+                    <div *ngIf="qualification.get('experience')!.invalid && qualification.get('experience')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="qualification.hasError('required', 'experience')">Annee d'experience is required.
+                        </div>
+                        <div *ngIf="qualification.hasError('min', 'experience')">Annee d'experience must be at least 0.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="grid card p-fluid w-12">
+        <form class="card p-fluid bg-gray-100 w-12" [formGroup]="contrat">
+            <h5>Contrat</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="typeContrat">Type Contrat*</label>
+                    <p-dropdown [options]="typeContrat" optionLabel="libelle" formControlName="typeContrat"
+                        (onChange)="onPickTypeContrat()"></p-dropdown>
+                    <div *ngIf="contrat.get('typeContrat')!.invalid && contrat.get('typeContrat')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="contrat.hasError('required', 'typeContrat')">Type Contrat is required.</div>
+                        <div *ngIf="contrat.hasError('isInArray', 'typeContrat')">Invalid Type Contrat.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="salaireDeBase">Salaire de base*</label>
+                    <input pInputText id="salaireDeBase" type="text" formControlName="salaireDeBase" />
+                    <div *ngIf="contrat.get('salaireDeBase')!.invalid && contrat.get('salaireDeBase')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="contrat.hasError('required', 'salaireDeBase')">Salaire de base is required.</div>
+                        <div *ngIf="contrat.hasError('min', 'salaireDeBase')">Salaire de base must be at least 0.</div>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="avantages">Avantage sur contrat*</label>
+                    <p-multiSelect [options]="avantages" optionLabel="libelle"
+                        formControlName="avantages"></p-multiSelect>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="dateDebut">Date Debut Contrat*</label>
+                    <p-calendar dateFormat="dd/mm/y" id="dateDebut" [showIcon]="true" [readonlyInput]="true"
+                        [defaultDate]="date" [placeholder]="date.toLocaleDateString()"
+                        formControlName="dateDebut"></p-calendar>
+                    <div *ngIf="contrat.get('dateDebut')!.invalid && contrat.get('dateDebut')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="contrat.hasError('required', 'dateDebut')">Date Debut Contrat is required.</div>
+                        <div *ngIf="contrat.hasError('isDate', 'dateDebut')">Date Debut Contrat must be a valid date.
+                        </div>
+                    </div>
+                </div>
+                <div class="field col-12" *ngIf="showDateFin">
+                    <label htmlFor="dateFin">Date Fin Contrat*</label>
+                    <p-calendar dateFormat="dd/mm/yy" id="dateFin" [showButtonBar]="true" [showIcon]="true"
+                        formControlName="dateFin"></p-calendar>
+                    <div *ngIf="contrat.get('dateFin')!.invalid && contrat.get('dateFin')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="contrat.hasError('required', 'dateFin')">Date Fin Contrat is required.</div>
+                        <div *ngIf="contrat.hasError('isDate', 'dateFin')">Date Fin Contrat must be a valid date.</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="grid card p-fluid w-12">
+        <form class="card p-fluid bg-gray-100 w-12" [formGroup]="poste">
+            <h5>Grade</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="departement">Departement*</label>
+                    <p-dropdown [options]="departements" (onChange)="onPickDepartement()" optionLabel="libelle"
+                        formControlName="departement"></p-dropdown>
+                    <div *ngIf="poste.get('departement')!.invalid && poste.get('departement')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="poste.hasError('required', 'departement')">Departement is required.</div>
+                        <div *ngIf="poste.hasError('isInArray', 'departement')">Invalid Departement.</div>
+                    </div>
+                </div>
+                <div class="field col-12">
+                    <label htmlFor="poste">Poste*</label>
+                    <p-dropdown [options]="typePostes" optionLabel="typePoste.libelle"
+                        formControlName="poste"></p-dropdown>
+                    <div *ngIf="poste.get('poste')!.invalid && poste.get('poste')!.touched" class="invalid-feedback">
+                        <div *ngIf="poste.hasError('required', 'poste')">Poste is required.</div>
+                    </div>
+                </div>
+                <div class="field col-12">
+                    <label htmlFor="responsable">Responsable*</label>
+                    <p-dropdown [options]="responsable" formControlName="responsable" [placeholder]="responsable[0]"
+                        [readonly]="true"></p-dropdown>
+                    <div *ngIf="poste.get('responsable')!.invalid && poste.get('responsable')!.touched"
+                        class="invalid-feedback">
+                        <div *ngIf="poste.hasError('required', 'responsable')">Responsable is required.</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="grid col-12 w-12">
+        <div class="grid card p-fluid w-12">
+            <div class="card p-fluid bg-gray-100 w-12">
+                <h5>Piece Jointe</h5>
+                <div class="p-fluid p-formgrid grid col-12">
+                    <p-table [value]="requiredPJs" [rowHover]="true">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="min-width: 12rem">
+                                    <div class="flex justify-content-between align-items-center">
+                                        Piece Jointe
+                                    </div>
+                                </th>
+                                <th style="min-width: 12rem">
+                                    <div class="flex justify-content-between align-items-center">
+                                        Obligatoire
+                                    </div>
+                                </th>
+                                <th style="min-width: 12rem">
+                                    <div class="flex justify-content-between align-items-center">
+                                        Status
+                                    </div>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-pj>
+                            <tr>
+                                <td>
+                                    {{pj.libelle}}
+                                </td>
+                                <td>
+                                    OUI
+                                </td>
+                                <td>
+                                    <p-checkbox [binary]="true"></p-checkbox>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <div class="field col-12 md:col-6 w-12">
+                        <label htmlFor="salaireDeBase">File<span *ngIf="reccomondation">*</span></label>
+                        <p-fileUpload id="file" (onSelect)="upload($event)" [showCancelButton]="true"
+                            [showUploadButton]="false" (onClear)="clearUploads()" class="w-12">
+                            <ng-template pTemplate="file"></ng-template>
+                            <ng-template pTemplate="content">
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles">
+                                        <span pTooltip="Delete file!" (click)="removeFile(file)" class="looklikelink"
+                                            >{{file.name}} - {{prettyBytes(file.size)}}</span>
+                                    </li>
+                                    <div class="select-none mt-2">Click File To Remove</div>
+                                </ul>
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid card p-fluid w-12">
+            <form class="card p-fluid bg-gray-100 w-12" [formGroup]="autreInformation">
+                <h5>Autres Informations</h5>
+                <div class="p-fluid p-formgrid grid nested-grid">
+                    <div class="col-6">
+                        <div class="field col-12 md:col-6">
+                            <p-checkbox label="Recommendation" (onChange)="onCheckReccomondation($event.checked)"
+                                [binary]="true"></p-checkbox>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="salaireDeBase">Collaborateur<span *ngIf="reccomondation">*</span></label>
+                            <p-autoComplete id="salaireDeBase" [suggestions]="suggestions"
+                                (completeMethod)="search($event.query)" field="nomComplet"
+                                formControlName="reccommender"></p-autoComplete>
+                            <div *ngIf="autreInformation.get('reccommender')!.invalid && autreInformation.get('reccommender')!.touched"
+                                class="invalid-feedback">
+                                <div *ngIf="autreInformation.hasError('required', 'reccommender')">Collaborateur is
+                                    required.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="field col-12 md:col-6 w-12">
+                            <label htmlFor="avantages">Commentaire</label>
+                            <textarea pInputTextarea [autoResize]="true" class="p-inputtextarea w-12"
+                                formControlName="comment"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="grid card p-fluid w-12">
+            <div class="card p-fluid bg-gray-100 w-12 grid">
+                <p-button  class="col-6 p-button-secondary text-center" styleClass="col-6 p-button-secondary text-center" (onClick)="clearAll()">Cancel</p-button>
+                <p-button class="col-6" (onClick)="postCollaborateur()" [disabled]="!enabled">Save</p-button>
+                <div *ngIf="progress!=null" class="col-12 w-12">
+                    <p-progressBar [value]="progress"></p-progressBar>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <p-toast></p-toast>

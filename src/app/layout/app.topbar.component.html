@@ -1,0 +1,26 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/images/logogti.png" alt="logo">
+        <span>GRH</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button" (click)="op1.toggle($event); toggle()">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+        <p-overlayPanel #op1 [showCloseIcon]="true" [style]="{width: '450px'}">
+            <div *ngIf="show">
+            <app-profile [user]="user!" (logout)="logout()"></app-profile>
+            </div>
+        </p-overlayPanel>
+    </div>
+</div>

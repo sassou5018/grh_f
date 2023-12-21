@@ -1,0 +1,41 @@
+
+<p-table [rowHover]="true" [value]="(files|async) ?? []" [scrollable]="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="min-width: 12rem">
+                <div class="flex justify-content-between align-items-center">
+                    Nom Fichier
+                </div>
+            </th>
+            <th style="min-width: 12rem">
+                <div class="flex justify-content-between align-items-center">
+                    Date Upload
+                </div>
+            </th>
+            <th style="min-width: 12rem">
+                <div class="flex justify-content-between align-items-center">
+                    Action
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+        <ng-template pTemplate="body" let-file>
+            <tr>
+                <td>
+                    {{file.name}}
+                </td>
+                <td>
+                    {{parseTime(file.dateUpload)}}
+                </td>
+                <td>
+                    <a class="p-button-rounded" icon="pi pi-download" (click)="openFile($event, file.name)" [href]="'/api'+'api/files/download/'+file.id">Download</a>
+                </td>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td class="text-center">No Files Found!</td>
+            </tr>
+        </ng-template>
+</p-table>
