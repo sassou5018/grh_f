@@ -17,7 +17,7 @@ export class FilesDialogComponent implements OnInit {
   @Input()
   withInput: boolean = false;
   identifier: number = 0;
-  files: Observable<any> = this.filesService.getFilesByCollaborateurId(this.identifier);
+  files: any = []
 
   constructor(private filesService: FilesService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) { }
 
@@ -28,6 +28,17 @@ export class FilesDialogComponent implements OnInit {
       else{
         this.identifier = this.config.data.id;
       }
+
+      console.log("id", this.identifier);
+      this.filesService.getFilesByCollaborateurId(this.identifier).subscribe({
+        next: (data) => {
+          console.log("files", data);
+          this.files = data;
+        },
+        error: (err) => {
+          console.log("error", err);
+        }
+      });
   }
 
 
