@@ -94,11 +94,7 @@ export interface ICollaborateurRequest {
         natureQualif_id: number;
         niveauQualif_id: number;
     };
-    poste: {
-        typePoste: number;
-        responsable: number;
-
-    };
+    poste_id: number; 
     contrat: {
         salaire: number;
         dateDeb: Date;

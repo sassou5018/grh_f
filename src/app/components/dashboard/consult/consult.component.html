@@ -121,7 +121,7 @@
             <div class="field col-12" >
                 <label htmlFor="responsable">Responsable*</label>
                 <div class="flex gap-1">
-                    <p-dropdown   [readonly]="true" [placeholder]="collaborateur.poste.responsable.nomComplet"></p-dropdown>
+                    <p-dropdown   [readonly]="true" [placeholder]="collaborateur.poste.responsable ? collaborateur.poste.responsable.nomComplet : 'Aucun Responsable'"></p-dropdown>
                     <button pButton class="p-button-rounded" icon="pi pi-external-link" pTooltip="Clicker pour consulter le profil" (click)="showProfil('resp')"></button>
                 </div>
             </div>

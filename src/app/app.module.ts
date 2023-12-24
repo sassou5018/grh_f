@@ -44,6 +44,10 @@ import { ConsultComponent } from './components/dashboard/consult/consult.compone
 import { AvantagestableComponent } from './components/dashboard/consult/avantagestable/avantagestable.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { UpdateDialogComponent } from './components/dashboard/update-dialog/update-dialog.component';
+import { UpdateComponent } from './components/dashboard/update/update.component';
+import { StatsComponent } from './components/dashboard/stats/stats.component';
+import { ChartModule } from 'primeng/chart';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +56,10 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TableComponent,
     FilesDialogComponent,
     ConsultComponent,
-    AvantagestableComponent
+    AvantagestableComponent,
+    UpdateDialogComponent,
+    UpdateComponent,
+    StatsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -89,7 +96,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     DynamicDialogModule,
     TooltipModule,
     BreadcrumbModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ChartModule,
 
     
   ],

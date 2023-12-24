@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { from } from 'rxjs';
@@ -23,14 +23,16 @@ import { isDate } from 'src/app/validators/isDate';
 import { isInArray } from 'src/app/validators/isInArray';
 import { isMinLength } from 'src/app/validators/isMinLength';
 import prettyBytes from 'pretty-bytes';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import * as dayjs from 'dayjs';
 
 @Component({
-  selector: 'app-collabform',
-  templateUrl: './collabform.component.html',
-  styleUrls: ['./collabform.component.scss'],
-  providers: [MessageService],
+  selector: 'app-update',
+  templateUrl: './update.component.html',
+  styleUrls: ['./update.component.scss'],
+  providers: [MessageService]
 })
-export class CollabformComponent implements OnInit {
+export class UpdateComponent implements OnInit {
   enabled = true;
   infoCollaborateur!: FormGroup;
   qualification!: FormGroup;
@@ -51,6 +53,10 @@ export class CollabformComponent implements OnInit {
   uploadedFiles: any[] = [];
   requiredPJs: IPieceJointeType[] = [];
   progress: null | number = null;
+  @Input()
+  collaborateur?: ICollaborateur;
+  @Input()
+  ref?: DynamicDialogRef;
 
   constructor(private qualificationService: QualificationService, private contratService: ContratService, private posteService: PosteService, private collaborateurService: CollaborateurService, private messageService: MessageService) { }
 
@@ -182,7 +188,7 @@ export class CollabformComponent implements OnInit {
       contrat: {
         typeContrat_id: this.contrat.get('typeContrat')?.value.id,
         salaire: this.contrat.get('salaireDeBase')?.value,
-        dateDeb: new Date(),
+        dateDeb: this.contrat.get('typeContrat')?.value.avecDateDebut ? this.contrat.get('dateDebut')?.value : null,
         dateFin: this.contrat.get('typeContrat')?.value.avecDateFin ? this.contrat.get('dateFin')?.value : null,
         avantage_ids: this.contrat.get('avantages')?.value.map((avantage: IAvantage) => {
           return avantage.id;
@@ -193,25 +199,12 @@ export class CollabformComponent implements OnInit {
       reccomender_id: this.reccomondation ? this.autreInformation.get('reccommender')?.value.id : null,
     }
     console.log("Posting Collaborateur...",collaborateur);
-    const formData = new FormData();
-    console.log(this.uploadedFiles);
-    for(let file in this.uploadedFiles){
-      console.log("File append loop item: ", this.uploadedFiles[file]);
-      formData.append('file[]', this.uploadedFiles[file]);
-    }
-    formData.append('json',new Blob([JSON.stringify(collaborateur)], {type: 'application/json'}));
-    console.log(formData.get('file[]'));
-    this.collaborateurService.postCollaborateurMultiPart(formData).subscribe({
+    this.collaborateurService.updateCollaborateur(collaborateur, this.collaborateur?.id!).subscribe({
       next: (response) => { 
-        if(response.type === HttpEventType.UploadProgress){
-          console.log("Upload Progress: ", Math.round(100 * response.loaded / response.total!));
-          this.progress = Math.round(100 * response.loaded / response.total!);
-        }
-        if(response.type === HttpEventType.Response){
           console.log("Response: ", response);
           this.enabled = false;
           this.messageService.add({severity:'success', summary: 'Success', detail: 'Collaborateur ajouté avec succès'});
-        }
+          this.ref?.close();
       },
       error: (err) => {
         console.log(err);
@@ -222,51 +215,52 @@ export class CollabformComponent implements OnInit {
 
 
   clearAll(){
-    this.init()
-    this.enabled = true;
+    this.ref?.close();
   }
 
 
   init(){
     this.infoCollaborateur = new FormGroup({
-      cin: new FormControl('', [Validators.required, isMinLength(9), Validators.maxLength(9)]),
-      nomComplet: new FormControl('', [Validators.required, isAlphabetic]),
+      cin: new FormControl(this.collaborateur?.cin || '', [Validators.required, isMinLength(9), Validators.maxLength(9)]),
+      nomComplet: new FormControl(this.collaborateur?.nomComplet || '', [Validators.required, isAlphabetic]),
       numeroCompte: new FormControl('', [Validators.required, isMinLength(9)]),
-      numSecSocial: new FormControl('', [Validators.required]),
-      dateNaissance: new FormControl('', [Validators.required, isDate]),
-      numTel: new FormControl('', [Validators.required, isMinLength(11), Validators.maxLength(11)]),
-      adresse: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      numSecSocial: new FormControl(this.collaborateur?.numeroSecuriteSociale || '', [Validators.required]),
+      dateNaissance: new FormControl(dayjs(this.collaborateur?.dateNaissance).toDate() || '', [Validators.required, isDate]),
+      numTel: new FormControl(this.collaborateur?.numeroTel || '', [Validators.required, isMinLength(11), Validators.maxLength(11)]),
+      adresse: new FormControl(this.collaborateur?.addresse || '', [Validators.required]),
+      email: new FormControl(this.collaborateur?.email || '', [Validators.required, Validators.email]),
     })
 
 
     this.qualification = new FormGroup({
-      natureQualif: new FormControl('', [Validators.required, isInArray(this.natureQualif)]),
-      certification: new FormControl('', []),
-      niveauQualif: new FormControl('', [Validators.required, isInArray(this.niveauQualif)]),
-      experience: new FormControl('', [Validators.required, Validators.min(0)]),
+      natureQualif: new FormControl(this.collaborateur?.qualification?.natureQualif || '', [Validators.required, isInArray(this.natureQualif)]),
+      certification: new FormControl(this.collaborateur?.qualification?.certification || '', []),
+      niveauQualif: new FormControl(this.collaborateur?.qualification?.niveauQualif || '', [Validators.required, isInArray(this.niveauQualif)]),
+      experience: new FormControl(this.collaborateur?.qualification?.experience || '', [Validators.required, Validators.min(0)]),
     })
 
+    this.date= dayjs(this.collaborateur?.contrat?.dateDeb).toDate();
 
     this.contrat = new FormGroup({
-      typeContrat: new FormControl('', [Validators.required, isInArray(this.typeContrat)]),
-      dateDebut: new FormControl({value: '',disabled: true}, [ifTrueThenRequired(false), isDate],),
-      dateFin: new FormControl('', [ifTrueThenRequired(false), isDate]),
-      salaireDeBase: new FormControl('', [Validators.required, Validators.min(0)]),
+      typeContrat: new FormControl(this.collaborateur?.contrat?.typeContrat || '', [Validators.required, isInArray(this.typeContrat)]),
+      dateDebut: new FormControl({value: this.collaborateur?.contrat.typeContrat.avecDateDebut ? dayjs(this.collaborateur?.contrat?.dateDeb).toDate() || '' : null, disabled: false}, [ifTrueThenRequired(false), isDate],),
+      dateFin: new FormControl({value: this.collaborateur?.contrat.typeContrat.avecDateFin ? dayjs(this.collaborateur?.contrat?.dateFin).toDate() || '': null, disabled: false}, [ifTrueThenRequired(false), isDate],),
+      salaireDeBase: new FormControl(this.collaborateur?.contrat?.salaire || '', [Validators.required, Validators.min(0)]),
       avantages: new FormControl({value: [], disabled: false}, []),
     })
 
+    
+
 
     this.poste = new FormGroup({
-      departement: new FormControl('', [Validators.required, isInArray(this.departements)]),
-      poste: new FormControl('', [Validators.required]),
-      responsable: new FormControl({value: '', disabled: false}, ),
+      departement: new FormControl(this.collaborateur?.poste?.typePoste?.departement || '', [Validators.required, isInArray(this.departements)]),
+      poste: new FormControl(this.collaborateur?.poste?.typePoste || '', [Validators.required]),
+      responsable: new FormControl(this.collaborateur?.poste?.responsable || '', []),
     })
 
-
     this.autreInformation = new FormGroup({
-      reccommender: new FormControl({value:'', disabled: true}, [ifTrueThenRequired(this.reccomondation)]),
-      comment: new FormControl('', []),
+      reccommender: new FormControl({value:this.collaborateur?.reccommender, disabled: true}, [ifTrueThenRequired(this.reccomondation)]),
+      comment: new FormControl(this.collaborateur?.comment, []),
     })
 
 
@@ -275,7 +269,6 @@ export class CollabformComponent implements OnInit {
     this.qualificationService.getAllNatures().subscribe({
       next: (data) => {
         this.natureQualif = data;
-        this.qualification.get('natureQualif')?.setValue(this.natureQualif[0]);
         console.log(this.natureQualif);
       },
       error: (err) => {
@@ -287,7 +280,6 @@ export class CollabformComponent implements OnInit {
     this.qualificationService.getAllNiveau().subscribe({
       next: (data) => {
         this.niveauQualif = data;
-        this.qualification.get('niveauQualif')?.setValue(this.niveauQualif[0]);
         console.log(this.niveauQualif);
       },
       error: (err) => {
@@ -300,14 +292,20 @@ export class CollabformComponent implements OnInit {
     this.contratService.getAllTypesContrat().subscribe({
       next: (data) => {
         this.typeContrat = data;
-        this.showDateFin = this.typeContrat[0].avecDateFin;
-        this.contrat.get('salaireDeBase')?.setValue(this.typeContrat[0].salaireDeBase);
-        this.contrat.get('typeContrat')?.setValue(this.typeContrat[0]);
+        this.showDateFin = this.collaborateur?.contrat.typeContrat.avecDateFin!;
         this.disableEnableDates(this.contrat.get('typeContrat'));
         this.updatePJTypes();
-        this.contratService.getAvantageByTypeContrat(this.typeContrat[0].id).subscribe({
+        console.log("typeContrat get: ", this.contrat.get("typeContrat")?.value.id)
+        this.contratService.getAvantageByTypeContrat(this.contrat.get("typeContrat")?.value.id).subscribe({
           next: (data) => {
             this.avantages = data;
+            console.log("Avantages from collab: ", this.collaborateur?.contrat.avantage);
+            this.collaborateur?.contrat.avantage.forEach(avantage=>{
+              const av = this.avantages.find((a)=> a.id === avantage.id);
+              this.contrat.get('avantages')?.value.push(av);
+            })
+            this.contrat.get('avantages')?.value.push();
+            console.log("Avantages from form:", this.contrat.get('avantages')?.value);
             console.log(this.avantages);
           },
           error: (err) => {
@@ -329,13 +327,10 @@ export class CollabformComponent implements OnInit {
     this.posteService.gettAllDepartements().subscribe({
       next: (data) => {
         this.departements = data;
-        this.poste.get('departement')?.setValue(this.departements[0]);
         this.posteService.getTypePosteByDepartement(this.departements[0].id).subscribe({
           next: (data) => {
             this.typePostes = data;
-            this.poste.get('poste')?.setValue(this.typePostes[0]);
-            this.poste.get('responsable')?.setValue(this.typePostes[0].responsable ? this.typePostes[0].responsable.nomComplet : 'Aucun Responsable');
-            this.responsable.push(this.typePostes[0].responsable ? this.typePostes[0].responsable.nomComplet : 'Aucun Responsable');
+            this.responsable.push(this.collaborateur?.poste.responsable ? this.collaborateur.poste.responsable.nomComplet : 'Aucun Responsable');
             console.log("Poste",data);
           },
           error: (err) => {

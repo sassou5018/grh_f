@@ -6,6 +6,9 @@ import { ICollaborateur, ICollaborateurRequest } from 'src/app/interfaces/IColla
   providedIn: 'root'
 })
 export class CollaborateurService {
+  updateCollaborateur(collaborateur: ICollaborateurRequest, id: number) {
+    return this.http.put<Boolean>('/api' + `api/collaborateur/${id}`, collaborateur);
+  }
   
   
   

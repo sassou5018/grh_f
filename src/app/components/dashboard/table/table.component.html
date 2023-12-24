@@ -1,11 +1,12 @@
 <div>
     <p-table #dt1  [showCurrentPageReport]="true" [rowHover]="true" [value]="(collaborateurs | async) ?? []" dataKey="id"  [globalFilterFields]="['id', 'nomComplet', 'poste.typePoste.libelle', 'contrat.typeContrat.libelle']">
         <ng-template pTemplate="caption">
-            <div>
+            <div class="flex justify-content-between">
                 <span class="p-input-icon-left p-ml-auto">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" placeholder="Search keyword" />
                 </span>
+                <button pButton (click)="showStats()">Show Stats</button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -62,7 +63,7 @@
                     <td>
                         <div class="grid gap-1">
                             <button type="button" class="p-button-rounded p-button-primary" pButton icon="pi pi-eye" pTooltip="Consulter" tooltipPosition="bottom" (click)="showUser(collab)"></button>
-                            <button type="button" class="p-button-rounded p-button-warning" pButton icon="pi pi-pencil" pTooltip="Modifier" tooltipPosition="bottom"></button>
+                            <button type="button" class="p-button-rounded p-button-warning" pButton icon="pi pi-pencil" pTooltip="Modifier" tooltipPosition="bottom" (click)="updateCollaborateur(collab)"></button>
                             <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-file-o" pTooltip="Pieces Jointes" tooltipPosition="bottom" (click)="showPJ(collab.id, collab.nomComplet)"></button>
                             <button type="button" class="p-button-rounded p-button-secondary" pButton icon="pi pi-file-pdf" pTooltip="Exporter PDF" tooltipPosition="bottom"></button>
                             <button type="button" class="p-button-rounded p-button-danger" pButton icon="pi pi-trash" pTooltip="Supprimer" tooltipPosition="bottom" (click)="deleteCollaborateur(collab.nomComplet, collab.id)"></button>
